@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <title>Portail officiel du harcèlement bienveillant</title>
+  <title>site officiel pour faire chier yahel</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="carte">
     <div class="emoji" aria-hidden="true">🐾</div>
     <p class="etiquette">Département officiel</p>
-    <h1>Portail du harcèlement bienveillant</h1>
+    <h1>harcèlement bienveillant (pour le moment)</h1>
 
     <section class="compteur" aria-live="polite">
       <div class="nombre" id="nombre">…</div>
@@ -30,7 +30,6 @@
       var nombre = document.getElementById("nombre");
       var legende = document.getElementById("legende");
 
-      // Sur GitHub Pages, on déduit le pseudo et le dépôt à partir de l'adresse du site.
       var urls = [];
       var segments = location.pathname.split("/").filter(Boolean);
       if (location.hostname.endsWith(".github.io") && segments.length > 0) {
@@ -38,13 +37,11 @@
         var depot = segments[0];
         urls.push("https://raw.githubusercontent.com/" + pseudo + "/" + depot + "/main/counter.json");
       }
-      urls.push("counter.json"); // secours (et tests en local)
-
+      urls.push("counter.json");
       function afficher(total) {
         legende.textContent = total > 1
           ? "mails de harcèlement envoyés"
           : "mail de harcèlement envoyé";
-
         var reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         if (reduit || total < 2) {
           nombre.textContent = total;
@@ -60,7 +57,6 @@
         }
         requestAnimationFrame(pas);
       }
-
       function essayer(i) {
         if (i >= urls.length) {
           nombre.textContent = "?";
@@ -79,7 +75,6 @@
             essayer(i + 1);
           });
       }
-
       essayer(0);
     })();
   </script>

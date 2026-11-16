@@ -22,40 +22,35 @@ from pathlib import Path
 import requests
 
 
-# ---------------------------------------------------------------- Réglages --
-
 COUNTER_FILE = Path(__file__).parent / "counter.json"
 
-# À adapter avec ton pseudo GitHub et le nom de ton dépôt.
+
 SITE_URL = "https://tototipi07-eng.github.io/Projet-harcellement/"
 
-# Photo de secours si toutes les API échouent : dépose une image "secours.jpg"
-# dans le dépôt et adapte cette URL. Si elle échoue aussi, le mail part sans photo.
-FALLBACK_URL = "https://raw.githubusercontent.com/TON-PSEUDO/NOM-DU-DEPOT/main/secours.jpg"
+
+FALLBACK_URL = "https://raw.githubusercontent.com/tototipi07-eng/Projet-harcellement/main/secours.jpg"
 
 SENDER_NAME = "Département Officiel du Harcèlement Bienveillant"
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
-TIMEOUT = 15  # secondes, pour chaque requête réseau
+TIMEOUT = 15  
 MAX_IMAGE_BYTES = 8 * 1024 * 1024
 
 CAPTIONS = [
+
     "Ceci est un harcèlement officiel. Merci de ne pas résister.",
     "Ton dossier de harcèlement avance très bien.",
     "Cet animal te regarde avec de grandes attentes.",
     "Rapport du jour : tu es toujours en train de lire mes mails.",
     "Ta boîte mail a été jugée digne de recevoir cette photo.",
-    "Pas de réponse requise. Mais je note tout.",
     "Ce mail s'autodétruira dans... non, finalement il reste là.",
-    "Le comité de harcèlement a validé cette photo à l'unanimité.",
     "Je ne dis pas que cet animal te ressemble. Je le pense très fort.",
     "Mise à jour du dossier : toujours aucune échappatoire.",
-    "Ta dose quotidienne de mignonnerie est arrivée.",
+    "Ceci est le mail du jour. Demain, il y en aura un autre. Et ainsi de suite.",
     "Cette photo a été choisie au hasard, mais avec amour.",
+    "Je t'ai harcelée aujourd'hui. Tu peux me remercier, c'est gratuit."
+
 ]
-
-# ------------------------------------------------------------- Photos (API) --
-
 
 def photo_chat():
     r = requests.get("https://api.thecatapi.com/v1/images/search", timeout=TIMEOUT)
@@ -68,12 +63,10 @@ def photo_chien():
     r.raise_for_status()
     return r.json()["message"]
 
-
 def photo_renard():
     r = requests.get("https://randomfox.ca/floof/", timeout=TIMEOUT)
     r.raise_for_status()
     return r.json()["image"]
-
 
 SOURCES = [("chat", photo_chat), ("chien", photo_chien), ("renard", photo_renard)]
 
@@ -112,9 +105,6 @@ def recuperer_photo():
         return None, None
 
 
-# ------------------------------------------------------------------ Compteur --
-
-
 def lire_compteur():
     with open(COUNTER_FILE, encoding="utf-8") as f:
         return int(json.load(f)["count"])
@@ -124,10 +114,6 @@ def ecrire_compteur(valeur):
     with open(COUNTER_FILE, "w", encoding="utf-8") as f:
         json.dump({"count": valeur}, f)
         f.write("\n")
-
-
-# ---------------------------------------------------------------------- Mail --
-
 
 def construire_mail(expediteur, destinataire, numero, animal, image):
     legende = random.choice(CAPTIONS)
@@ -186,9 +172,6 @@ def envoyer(msg, utilisateur, mot_de_passe):
         smtp.send_message(msg)
 
 
-# ---------------------------------------------------------------------- Main --
-
-
 def main():
     utilisateur = os.environ.get("SMTP_USER", "").strip()
     mot_de_passe = os.environ.get("SMTP_PASSWORD", "").replace(" ", "")
@@ -211,8 +194,7 @@ def main():
 
     msg = construire_mail(utilisateur, destinataire, numero, animal, image)
     envoyer(msg, utilisateur, mot_de_passe)
-
-    # Le compteur n'est écrit qu'ici, donc seulement après un envoi réussi.
+    
     ecrire_compteur(numero)
     print(f"[ok] mail n°{numero} envoyé ({'avec' if image else 'sans'} photo)")
 

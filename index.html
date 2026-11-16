@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Portail officiel du harcèlement bienveillant</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="carte">
+    <div class="emoji" aria-hidden="true">🐾</div>
+    <p class="etiquette">Département officiel</p>
+    <h1>Portail du harcèlement bienveillant</h1>
+
+    <section class="compteur" aria-live="polite">
+      <div class="nombre" id="nombre">…</div>
+      <p class="legende" id="legende">mails de harcèlement envoyés</p>
+    </section>
+
+    <p class="statut"><span aria-hidden="true"></span>Statut : harcèlement en cours</p>
+
+    <a class="bouton" href="404-parfait.html">Se désabonner</a>
+
+    <p class="petit">Un nouveau mail, avec un animal, tous les jours.</p>
+  </main>
+
+  <script>
+    (function () {
+      var nombre = document.getElementById("nombre");
+      var legende = document.getElementById("legende");
+
+      // Sur GitHub Pages, on déduit le pseudo et le dépôt à partir de l'adresse du site.
+      var urls = [];
+      var segments = location.pathname.split("/").filter(Boolean);
+      if (location.hostname.endsWith(".github.io") && segments.length > 0) {
+        var pseudo = location.hostname.split(".")[0];
+        var depot = segments[0];
+        urls.push("https://raw.githubusercontent.com/" + pseudo + "/" + depot + "/main/counter.json");
+      }
+      urls.push("counter.json"); // secours (et tests en local)
+
+      function afficher(total) {
+        legende.textContent = total > 1
+          ? "mails de harcèlement envoyés"
+          : "mail de harcèlement envoyé";
+
+        var reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduit || total < 2) {
+          nombre.textContent = total;
+          return;
+        }
+        var debut = null;
+        var duree = 1000;
+        function pas(t) {
+          if (debut === null) debut = t;
+          var avancement = Math.min((t - debut) / duree, 1);
+          nombre.textContent = Math.round(total * avancement);
+          if (avancement < 1) requestAnimationFrame(pas);
+        }
+        requestAnimationFrame(pas);
+      }
+
+      function essayer(i) {
+        if (i >= urls.length) {
+          nombre.textContent = "?";
+          legende.textContent = "compteur momentanément en grève";
+          return;
+        }
+        fetch(urls[i] + "?t=" + Date.now(), { cache: "no-store" })
+          .then(function (r) {
+            if (!r.ok) throw new Error("HTTP " + r.status);
+            return r.json();
+          })
+          .then(function (data) {
+            afficher(Number(data.count) || 0);
+          })
+          .catch(function () {
+            essayer(i + 1);
+          });
+      }
+
+      essayer(0);
+    })();
+  </script>
+</body>
+</html>

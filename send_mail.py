@@ -27,7 +27,7 @@ import requests
 COUNTER_FILE = Path(__file__).parent / "counter.json"
 
 # À adapter avec ton pseudo GitHub et le nom de ton dépôt.
-SITE_URL = "https://TON-PSEUDO.github.io/NOM-DU-DEPOT/"
+SITE_URL = "https://tototipi07-eng.github.io/Projet-harcellement/"
 
 # Photo de secours si toutes les API échouent : dépose une image "secours.jpg"
 # dans le dépôt et adapte cette URL. Si elle échoue aussi, le mail part sans photo.

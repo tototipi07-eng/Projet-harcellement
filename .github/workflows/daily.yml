@@ -1,7 +1,7 @@
 name: Mail quotidien
 on:
   schedule:
-    - cron: '59 16 * * *'   # 17 h UTC = 18 h à Paris 
+    - cron: '30 18 * * *'
   workflow_dispatch:       
 permissions:
   contents: write

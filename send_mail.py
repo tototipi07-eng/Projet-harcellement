@@ -128,9 +128,9 @@ def ecrire_compteur(valeur):
 
 def construire_mail(expediteur, destinataire, numero, animal, image):
     legende = random.choice(CAPTIONS)
-    sujet = f"Harcèlement n°{numero} : ton {animal} du jour"
+    sujet = f"Harcèlement : ton {animal} du jour"
     if image is None:
-        sujet = f"Harcèlement n°{numero} : les animaux sont en grève"
+        sujet = f"Harcèlement: les animaux sont en grève"
         legende = "Les animaux sont en grève aujourd'hui, mais le harcèlement continue."
 
     msg = EmailMessage()
@@ -141,8 +141,8 @@ def construire_mail(expediteur, destinataire, numero, animal, image):
 
     texte = (
         f"{legende}\n\n"
-        f"Harcèlement n°{numero}\n"
-        f"Le compteur officiel : {SITE_URL}\n"
+        f"Harcèlement \n"
+        f"clique ici pour le site officiel : {SITE_URL}\n"
     )
     msg.set_content(texte)
 

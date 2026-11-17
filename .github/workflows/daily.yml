@@ -1,7 +1,7 @@
 name: Mail quotidien
 on:
   schedule:
-    - cron: '30 18 * * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch:       
 permissions:
   contents: write

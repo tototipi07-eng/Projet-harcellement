@@ -1,7 +1,7 @@
 name: Mail quotidien
 on:
   schedule:
-    - cron: '0 6 * * *'   # 7 h UTC = 8 h à Paris en hiver (9 h en été)
+    - cron: '17 16 * * *'   # 7 h UTC = 8 h à Paris en hiver (9 h en été)
   workflow_dispatch:       
 permissions:
   contents: write

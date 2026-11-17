@@ -30,7 +30,7 @@ SITE_URL = "https://tototipi07-eng.github.io/Projet-harcellement/"
 
 FALLBACK_URL = "https://raw.githubusercontent.com/tototipi07-eng/Projet-harcellement/main/secours.jpg"
 
-SENDER_NAME = "Département Officiel du Harcèlement Bienveillant"
+SENDER_NAME = "Projet Harcèlement"
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
 TIMEOUT = 15  
@@ -39,16 +39,21 @@ MAX_IMAGE_BYTES = 8 * 1024 * 1024
 CAPTIONS = [
 
     "Ceci est un harcèlement officiel. Merci de ne pas résister.",
-    "Ton dossier de harcèlement avance très bien.",
     "Cet animal te regarde avec de grandes attentes.",
     "Rapport du jour : tu es toujours en train de lire mes mails.",
-    "Ta boîte mail a été jugée digne de recevoir cette photo.",
     "Ce mail s'autodétruira dans... non, finalement il reste là.",
     "Je ne dis pas que cet animal te ressemble. Je le pense très fort.",
-    "Mise à jour du dossier : toujours aucune échappatoire.",
+    "Mise à jour du dossier : Mmmmm non je continue.",
     "Ceci est le mail du jour. Demain, il y en aura un autre. Et ainsi de suite.",
     "Cette photo a été choisie au hasard, mais avec amour.",
-    "Je t'ai harcelée aujourd'hui. Tu peux me remercier, c'est gratuit."
+    "Je t'ai harcelée aujourd'hui. Tu peux me remercier, c'est gratuit.",
+    "j'ai plus d'idées là ",
+    "comment ça va ?",
+    "Je t'envoie ce mail pour te rappeler que tu es harcelée. C'est important.",
+    "67 67 67 67 tasty croustilles",
+    "le pianiste n'est plus disponible désolé :(",
+    "j'aurais kiffer qu'on aille au zoo, le problème c'est que j'ai peur qu'ils te gardent",
+    
 
 ]
 
@@ -68,11 +73,21 @@ def photo_renard():
     r.raise_for_status()
     return r.json()["image"]
 
-SOURCES = [("chat", photo_chat), ("chien", photo_chien), ("renard", photo_renard)]
+def photo_capybara():
+    r = requests.get("https://api.capy.lol/v1/capybara?json=true", timeout=TIMEOUT)
+    r.raise_for_status()
+    return r.json()["data"]["url"]
+
+
+SOURCES = [
+    ("chat", photo_chat),
+    ("chien", photo_chien),
+    ("renard", photo_renard),
+    ("capybara", photo_capybara),
+]
 
 
 def telecharger(url):
-    """Télécharge l'image et renvoie (octets, type, sous-type)."""
     r = requests.get(url, timeout=TIMEOUT)
     r.raise_for_status()
     content_type = r.headers.get("Content-Type", "").split(";")[0].strip().lower()
@@ -85,10 +100,6 @@ def telecharger(url):
 
 
 def recuperer_photo():
-    """Essaie les API dans un ordre aléatoire, puis la photo de secours.
-
-    Renvoie (nom de l'animal, (octets, type, sous-type)) ou (None, None).
-    """
     sources = SOURCES[:]
     random.shuffle(sources)
     for animal, fetch in sources:

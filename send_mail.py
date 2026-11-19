@@ -158,7 +158,7 @@ def construire_mail(expediteur, destinataire, numero, animal, image):
 <html>
   <body style="font-family:Arial,Helvetica,sans-serif;background:#faf7f2;margin:0;padding:24px;">
     <div style="max-width:480px;margin:0 auto;text-align:center;color:#333;">
-      <h2 style="margin-bottom:4px;">Harcèlement n°{numero}</h2>
+      <h2 style="margin-bottom:4px;">Harcèlement du jour</h2>
       {bloc_photo}
       <p style="font-size:16px;line-height:1.5;">{escape(legende)}</p>
       <p style="font-size:13px;color:#888;">

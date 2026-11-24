@@ -49,7 +49,7 @@ PHRASES = [
     "Ceci est le premier mail d'une longue série. Tu n'es pas prête.",
 
     "tu as 19 ans t'es vielle de fou bahahhhahahaha",
-    "j'aime bien cette photo t'es jolie",
+    "j'aime bien cette photo t'es jolie je commence doucement.",
     "Aujourd'hui, tu as officiellement le droit de ne pas être gentille. ",
     "Message d'utilité publique : BONNE ANNNNIIIIVERRRSAIRREEE YAHELLLL.",
     "Si tu lis ça avec le sourire, ma mission est déjà réussi.",

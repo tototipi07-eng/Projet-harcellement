@@ -45,94 +45,95 @@ MAX_IMAGE_BYTES = 8 * 1024 * 1024
 # Une phrase par mail, dans l'ordre. 84 phrases = 14 h à raison d'un mail / 10 min.
 PHRASES = [
     # Matin
-    "Debout, c'est ton jour ! Joyeux anniversaire Yahel ! 🎂",
+    "Bonjour Joyeux anniversaire Yahel ! 🎂",
     "Ceci est le premier mail d'une longue série. Tu n'es pas prête.",
-    "Un mail toutes les 10 minutes, toute la journée. Oui, j'ai bien dit toute la journée.",
-    "Tu as un an de plus, mais honnêtement ça te va très bien.",
-    "Petit conseil : commence la journée avec un petit déj digne d'un anniversaire.",
-    "Aujourd'hui, tu as officiellement le droit de manger du gâteau à toute heure. 🍰",
-    "Message d'utilité publique : tu es une personne vraiment cool.",
-    "Si tu lis ça avec le sourire, ma mission est déjà en bonne voie. 😄",
-    "Info du jour : le monde est un peu mieux depuis que tu es dedans.",
-    "Je n'ai pas de super-pouvoirs, mais je peux t'envoyer plein de mails. C'est déjà ça.",
-    "Que cette journée soit remplie de bonnes surprises. La première, c'est moi.",
-    "Petit rappel : tu as le droit de te faire plaisir aujourd'hui. Interdiction de t'en priver.",
-    "J'espère que tes premiers cadeaux t'ont plu. Sinon, on en reparlera. 🎁",
-    "Déjà plein de mails reçus, et on n'est qu'au début. Courage ! 💪",
-    # Fin de matinée
-    "Question importante : as-tu déjà fait un vœu aujourd'hui ? Fais-en un gros.",
-    "Je suis très content de t'avoir dans ma vie. Voilà, c'est dit. 💙",
-    "Je ne sais pas écrire de poèmes, mais je sais écrire des mails. Beaucoup de mails.",
-    "Oui, c'est bien toi sur la photo. Et oui, tu es très bien dessus.",
-    "Statistique du jour : 100 % des mails d'aujourd'hui contiennent une belle personne. Spoiler : c'est toi.",
+
+    "tu as 19 ans c'est vielle de fou bahahhhahahaha",
+    "j'aime bien cette photo t'es jolie",
+    "Aujourd'hui, tu as officiellement le droit de ne pas être gentille. ",
+    "Message d'utilité publique : BONNE ANNNNIIIIVERRRSAIRREEE YAHELLLL.",
+    "Si tu lis ça avec le sourire, ma mission est déjà réussi.",
+    "Info du jour : le monde est un peu mieux depuis que tu es dedans. ps:c'est pas de moi celle là mais je la trouve vraie.",
+    "Que cette journée soit remplie de bonnes surprises.",
+    "tu as le droit de te faire plaisir aujourd'hui. Interdiction de t'en priver.",
+    "Déjà 11 mails reçus, et on n'est qu'au début. Courage...",
+    "Question ? as-tu déjà fait un vœu aujourd'hui ? Fais-en un gros.",
+    "Je suis très content de t'avoir dans ma vie. Voilà, c'est dit.",
+    "att je vais chercher des phrases d'accroche pout toi",
+    "Je viens vérifier si tu es toujours aussi incroyable qu'hier. C'est pour mes statistiques.",
+    "Je voulais écrire quelque chose d'intelligent, mais tu me fais perdre mes moyens. pas mal celle là non ?",
+    "J'espère que ta journée est aussi belle que toi. ouffff elle est trop bien",
+    "Certaines personnes prennent de belles photos. Toi, tu rends les photos belles.",
+    "Statistique du jour : 100 % des mails d'aujourd'hui contiennent une belle personne.",
+    "Il existe plus de flamants roses en plastique dans le monde que de vrais flamants roses",
     "Tu mérites une journée où tout se passe bien. Je croise les doigts.",
-    "Hydratation : bois un verre d'eau. Après, tu pourras reprendre du gâteau.",
-    "Cette phrase n'a aucun intérêt, mais elle est là pour t'envoyer plein de bonnes ondes.",
-    "Il paraît qu'on grandit à chaque anniversaire. Toi, tu rayonnes surtout.",
-    "Si tu as faim, c'est normal. Si tu as envie de dessert, c'est encore plus normal.",
-    "J'espère que tu as déjà reçu plein de messages. Le mien est le plus régulier, au moins.",
-    "Ce que j'aime chez toi ? Plein de choses. La liste est longue, je continue demain.",
-    "Fait scientifique (non vérifié) : sourire en lisant ce mail ajoute 3 minutes de bonheur.",
-    "Bientôt midi ! Pense à manger quelque chose de bon. C'est un ordre doux.",
+
+
+    "Cette phrase n'a aucun intérêt, j'espère que tu la lira pas ",
+    "Il paraît qu'on grandit à chaque anniversaire. Toi, tu rayonnes surtout. j'ai plus trop d'inspi là dsl",
+    "Si tu as faim tu peux aller manger, c'est logique ",
+    "Si tu as soif tu peux aller boire, c'est logique aussi",
+    "Une porte ouverte est généralement plus ouverte qu'une porte fermée.",
+    "si tu as chaud tu peux enlever ton écharpe, c'est logique aussi",
+    "Si tu as froid je peux te réchauffer si tu veux",
+    "J'espère que ça va marcher et que ça ne servent à rien :(.",
+    "Ce que j'aime chez toi ? Plein de choses. La liste est longue.",
+    "Les vaches ont des meilleures amies et stressent quand elles sont séparées.",
+    "ehh yaaaa moyennn ouuuuu ??? ",
+    "Une girafe se nettoie les oreilles avec sa langue.",
+
     # Midi
-    "Pause déjeuner : le moment parfait pour un repas d'anniversaire.",
-    "Ton plat préféré t'attend peut-être quelque part. Va le chercher.",
-    "Un anniversaire sans dessert, c'est comme un mail sans photo de toi : ça n'existe pas.",
-    "Je t'écris entre deux bouchées virtuelles. Bon appétit ! 🍽️",
-    "Je suis fier de ce que tu es, et de ce que tu deviens.",
     "Tu fais partie des gens qui rendent les journées plus légères. Merci pour ça.",
-    "Si le déjeuner était un cadeau, tu aurais déjà tout gagné.",
-    "Petite sieste autorisée aujourd'hui. Mais je continue les mails pendant ce temps. 😴",
-    "Le jour de son anniversaire, on a le droit de faire ce qu'on veut. Enfin, c'est ma théorie.",
-    "Moment sincérité : merci d'être la personne que tu es.",
-    "Je te laisse digérer tranquillement. Je reviens dans dix minutes, comme prévu.",
+    "Je pense que tu sous-estimes ton niveau de photogénie. je sais pas si ça s'écrit comme ça mdr ",
+    "Le jour de son anniversaire, on a le droit de dire et faire ce qu'on veut. je pose ça la",
+    "Attention, être aussi jolie est normalement soumis à une réglementation strict.",
+    "Bonjour mademoiselle, je vous arrête pour excès de beauté.",
+    "dsl pour les fautes d'orthographe jsuis trop nul pour ça",
+    "Ce qu'il y a devant l'objectif est beau, mais ce qu'il y a derrière palalalalaa. dsl il est tard pour moi",
+    "Je reviens dans dix minutes att",
+    "Je reviens dans dix minutes encore je dois regarder the pianist sans toi",
+    "je t'ai manqué ???????",
     "Tu es probablement en train de sourire. Je le sens d'ici.",
-    "Si tu avais un super-pouvoir aujourd'hui, ce serait d'illuminer toutes les pièces.",
-    "Tu te demandes sûrement quand ça va s'arrêter. Réponse : ce soir.",
+
     # Après-midi
-    "L'après-midi commence. Le gâteau est encore valable, ne l'oublie pas.",
-    "Je pense à toi même quand je n'envoie pas de mail. Là, j'en envoie beaucoup, mais bon.",
-    "Un conseil : prends le temps de profiter. Aujourd'hui, c'est ton jour.",
-    "Si on faisait un classement des meilleures personnes, tu serais sur le podium. Peut-être même première.",
-    "Je te dois au moins mille câlins. Je te les livrerai en personne.",
-    "Ce mail est sponsorisé par l'envie de te faire sourire.",
-    "Tu as vu comme tu es photogénique ? Moi, je le sais depuis longtemps.",
+
+    "prends le temps de profiter. Aujourd'hui, c'est ton jour, par contre demain tu vas voir....",
+    "Si on faisait un classement des plus belle personnes, tu serais comme dans la musique de squeezie",
+
+    "Une journée sur Vénus est plus longue qu'une année sur Vénus.c'est fou en vrai",
+    "Je suis content d'avoir pu partager cette journée avec toi même par mail mdrr ",
+    "Tu as vu comme tu es photogénique ? ",
+    "Je viens de vérifier. Oui, c'est toujours ton anniversaire.",
     "Si tu es fatiguée de tous ces mails, tu peux répondre « stop ». Je ne m'arrêterai pas, mais c'est gentil de demander.",
-    "Chaque année avec toi est une bonne année. Surtout celle-ci.",
-    "Je te souhaite des rires, du chocolat et des gens qui t'aiment. Dans cet ordre ou un autre.",
-    "J'ai de la chance de te connaître. C'est pas une blague, enfin si un peu. Mais surtout non.",
+
+   
     "Allez, courage, il reste encore plein de mails à lire. Tu vas y arriver.",
     "Quel est le plus beau cadeau d'aujourd'hui ? Ces mails, évidemment.",
-    "J'espère que ton goûter est à la hauteur de l'occasion. 🍰",
-    "Petit rappel : tu es capable de grandes choses. Et de petites aussi, mais surtout de grandes.",
+   
+    "yahel ... ... NON RIEN ahaahahahahahaahah",
     "Merci d'exister, sincèrement.",
     "Je suis à court d'idées de blagues, donc je mise tout sur la gentillesse.",
-    "Si tu penses à moi en ce moment, c'est normal : je t'inonde de mails.",
-    "Il paraît que les anniversaires rendent plus sage. Ne change rien, surtout.",
-    "La soirée approche, et avec elle la fin des mails. Peut-être.",
+
+    "Il paraît que les anniversaires rendent plus vieux c'est vrai ? ",
+    "Les gens qui ont 19 ans ont généralement 1 an de plus que les gens qui ont 18 ans.",
     # Soirée
-    "Début de soirée : l'heure idéale pour un dîner d'anniversaire.",
+    "Les personnes vivantes ont tendance à ne pas être mortes.", 
+    "J'ai remarqué que les anniversaires tombent toujours le même jour de l'année.",
+
     "Si quelqu'un te propose de cuisiner ce soir, accepte. C'est un cadeau.",
-    "Et si on faisait un truc sympa bientôt, juste nous ? Pense-y.",
-    "Je suis content d'avoir pu partager cette journée avec toi, même à distance.",
-    "Ma phrase préférée de la journée : « Joyeux anniversaire Yahel ». Elle est vraie.",
-    "Il reste de moins en moins de mails. Je te vois déjà soulagée. Ou un peu triste ?",
-    "Souviens-toi : tu es drôle, tu es géniale, et tu es très forte pour recevoir des mails.",
-    "Ce soir, fais un dernier vœu. Je suis sûr qu'il se réalisera.",
-    "Je t'écris depuis le futur : tu vas passer une très belle soirée.",
-    "Merci d'avoir lu tous ces mails. Tu es une championne.",
-    "Résumé de la journée : gâteau, rires, câlins virtuels et moi dans ta boîte mail.",
-    "Je ne te l'ai pas encore assez dit : tu comptes énormément pour moi. 💙",
-    "Les bougies sont presque soufflées. Garde un peu de chance pour l'année qui arrive.",
-    "Cette année va être belle. Je le sens, et je me trompe rarement.",
-    "On approche de la fin. Respire, tu as survécu à une journée de mails.",
-    "J'ai de la chance de t'avoir dans ma vie, tout simplement.",
+    "Plus une pizza est grande, plus il y a de pizza dedans.",
+    "Plus il y a de gens dans une file d'attente, plus la file d'attente est longue",
+    "si tu mets un pizza sur une autre pizza ça fait 2 pizzas mais si tu mets une lazzagne sur une autre lazzagne ça fait une lazzagne. à mériter",
+    "c'est fou toute les photos sont belle de ouf bizzare",
+    
+    "fais un vœu , Je suis sûr qu'il se réalisera à part si je trouve qu'il est nul donc il se réalisera pas",
+    "Je t'écris depuis le futur : tu vas passer une très belle année de 19 ans.",
+    "Contrôle qualité terminé : résultat, toujours parfaite. je deviens fou ",
+    "La soirée approche, et avec elle la fin des mails. c'est triste",
     "Quoi qu'il arrive cette année, sache que je suis dans ton camp. Toujours.",
-    "Dernière ligne droite : plus que quelques mails avant la fin de la fête.",
-    "Merci d'avoir été la star de cette journée. Tu le méritais largement.",
-    "Avant-dernier mail ! Le dernier arrive dans dix minutes. Reste là.",
     "Pour finir : que cette nouvelle année soit remplie de joie, de rires et de belles surprises.",
-    "Voilà, c'est fini ! Joyeux anniversaire Yahel, et bonne nuit. 🌙💙",
+    "Voilà, c'est fini ! Joyeux anniversaire Yahel, et bonne soiré. 🌙",
+    "allez une petit dernière pour la route",
 ]
 
 CONFETTI_COULEURS = ["#2f6fed", "#ffb703", "#2a9d8f", "#e63946", "#8ecae6", "#fb8500", "#90be6d"]
@@ -172,11 +173,11 @@ def charger_photo(chemin):
     return octets, maintype, subtype
 
 
-def choisir_photo(index):
-    """Photo n°index dans l'ordre alphabétique (on repart au début à la fin)."""
+def choisir_photo():
+    """Choisit une photo au hasard, en essayant les autres si elle est invalide."""
     photos = lister_photos()
-    for decalage in range(len(photos)):
-        chemin = photos[(index + decalage) % len(photos)]
+    random.shuffle(photos)
+    for chemin in photos:
         try:
             return charger_photo(chemin)
         except Exception as err:  # noqa: BLE001 - on passe à la photo suivante
@@ -231,11 +232,11 @@ def construire_mail(expediteur, destinataire, numero, image):
                 background:#ffffff;border-radius:24px;padding:24px;
                 border:3px dashed #4f8cff;">
       <div style="line-height:1.4;">{confettis()}</div>
-      <div style="font-size:42px;margin:6px 0;"> 🎉 🎉 🎉 🎂 🎂 🎉 🎉 🎉</div>
+      <div style="font-size:42px;margin:6px 0;"> 🎉 🎉 🎉 🎂  🎉 🎉 🎉</div>
       <h1 style="margin:4px 0;color:#1d3557;font-size:28px;">Joyeux anniversaire Yahel! </h1>
      
       {bloc_photo}
-      <p style="font-size:17px;line-height:1.5;background:#e8f1ff;border-radius:14px;padding:14px;color:#1d3557;">
+      <p style="font-size:17px;line-height:1.5;background:{couleur_fond};border-radius:14px;padding:14px;color:#1d3557;">
         {escape(phrase)}
       </p>
       <div style="font-size:26px;margin:10px 0;">❤️ ✨ ❤️ 🥳 ❤️ ✨ ❤️</div>
@@ -278,7 +279,7 @@ def main():
         sys.exit(f"Variables d'environnement manquantes : {', '.join(manquantes)}")
 
     numero = lire_compteur() + 1
-    image = choisir_photo(numero - 1)
+    image = choisir_photo()
 
     msg = construire_mail(utilisateur, destinataire, numero, image)
     envoyer(msg, utilisateur, mot_de_passe)

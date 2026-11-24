@@ -137,6 +137,7 @@ PHRASES = [
 
 CONFETTI_COULEURS = ["#2f6fed", "#ffb703", "#2a9d8f", "#e63946", "#8ecae6", "#fb8500", "#90be6d"]
 CONFETTI_FORMES = ["●", "◆", "■", "▲", "★", "♥", "✦"]
+COULEURS_FOND = ["#eaf2ff", "#fff0f3", "#f0f7e9", "#fff6e5", "#f3edff", "#e8f7f5"]
 
 
 def confettis(n=22):
@@ -199,6 +200,7 @@ def construire_mail(expediteur, destinataire, numero, image):
     total = len(PHRASES)
     position = (numero - 1) % total
     phrase = PHRASES[position]
+    couleur_fond = random.choice(COULEURS_FOND)
     sujet = f"Joyeux anniversaire Yahel!"
 
     msg = EmailMessage()
@@ -224,14 +226,14 @@ def construire_mail(expediteur, destinataire, numero, image):
 
     html = f"""\
 <html>
-  <body style="font-family:Arial,Helvetica,sans-serif;background:#eaf2ff;margin:0;padding:24px;">
+  <body style="font-family:Arial,Helvetica,sans-serif;background:{couleur_fond};margin:0;padding:24px;">
     <div style="max-width:480px;margin:0 auto;text-align:center;color:#1d3557;
                 background:#ffffff;border-radius:24px;padding:24px;
                 border:3px dashed #4f8cff;">
       <div style="line-height:1.4;">{confettis()}</div>
       <div style="font-size:42px;margin:6px 0;">🎂 🎈 🎉</div>
       <h1 style="margin:4px 0;color:#1d3557;font-size:28px;">Joyeux anniversaire Yahel! </h1>
-      <p style="margin:0;color:#2a9d8f;font-size:15px;">Surprise {position + 1}/{total} 🎈</p>
+     
       {bloc_photo}
       <p style="font-size:17px;line-height:1.5;background:#e8f1ff;border-radius:14px;padding:14px;color:#1d3557;">
         {escape(phrase)}
@@ -280,9 +282,6 @@ def main():
 
     msg = construire_mail(utilisateur, destinataire, numero, image)
     envoyer(msg, utilisateur, mot_de_passe)
-
-    ecrire_compteur(numero)
-    print(f"[ok] mail n°{numero} envoyé ({'avec' if image else 'sans'} photo)")
 
 
 if __name__ == "__main__":

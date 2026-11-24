@@ -48,7 +48,7 @@ PHRASES = [
     "Bonjour Joyeux anniversaire Yahel ! 🎂",
     "Ceci est le premier mail d'une longue série. Tu n'es pas prête.",
 
-    "tu as 19 ans c'est vielle de fou bahahhhahahaha",
+    "tu as 19 ans t'es vielle de fou bahahhhahahaha",
     "j'aime bien cette photo t'es jolie",
     "Aujourd'hui, tu as officiellement le droit de ne pas être gentille. ",
     "Message d'utilité publique : BONNE ANNNNIIIIVERRRSAIRREEE YAHELLLL.",

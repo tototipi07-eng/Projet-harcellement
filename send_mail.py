@@ -198,7 +198,7 @@ def ecrire_compteur(valeur):
 
 def construire_mail(expediteur, destinataire, numero, image):
     total = len(PHRASES)
-    position = (numero - 1) % total
+    position = (numero) % total
     phrase = PHRASES[position]
     couleur_fond = random.choice(COULEURS_FOND)
     sujet = f"Joyeux anniversaire Yahel!"
@@ -231,14 +231,14 @@ def construire_mail(expediteur, destinataire, numero, image):
                 background:#ffffff;border-radius:24px;padding:24px;
                 border:3px dashed #4f8cff;">
       <div style="line-height:1.4;">{confettis()}</div>
-      <div style="font-size:42px;margin:6px 0;">🎂 🎈 🎉</div>
+      <div style="font-size:42px;margin:6px 0;"> 🎉 🎉 🎉 🎂 🎂 🎉 🎉 🎉</div>
       <h1 style="margin:4px 0;color:#1d3557;font-size:28px;">Joyeux anniversaire Yahel! </h1>
      
       {bloc_photo}
       <p style="font-size:17px;line-height:1.5;background:#e8f1ff;border-radius:14px;padding:14px;color:#1d3557;">
         {escape(phrase)}
       </p>
-      <div style="font-size:26px;margin:10px 0;">💙 ✨ 💛 🥳 💚 ✨ 💙</div>
+      <div style="font-size:26px;margin:10px 0;">❤️ ✨ ❤️ 🥳 ❤️ ✨ ❤️</div>
       
       <div style="line-height:1.4;margin-top:18px;">{confettis()}</div>
     </div>
@@ -284,7 +284,7 @@ def main():
     envoyer(msg, utilisateur, mot_de_passe)
 
     ecrire_compteur(numero)
-    
+
 
 if __name__ == "__main__":
     main()

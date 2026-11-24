@@ -44,7 +44,7 @@ CAPTIONS = [
     "Ce mail s'autodétruira dans... non, finalement il reste là.",
     "Je ne dis pas que cet animal te ressemble. Je le pense très fort.",
     "Mise à jour du dossier : Mmmmm non je continue.",
-    "Ceci est le mail du jour. Demain, il y en aura un autre. Et ainsi de suite.",,
+    "Ceci est le mail du jour. Demain, il y en aura un autre. Et ainsi de suite.",
     "Je t'ai harcelée aujourd'hui. Tu peux me remercier, c'est gratuit.",
     "j'ai plus d'idées là ",
     "comment ça va ?",
@@ -52,8 +52,8 @@ CAPTIONS = [
     "67 67 67 67 tasty croustilles",
     "le pianiste n'est plus disponible désolé :(",
     "j'aurais kiffer qu'on aille au zoo, le problème c'est que j'ai peur qu'ils te gardent",
-    "Alerte météo : 100 % de chances que tu lises ce mail avec un sourire.",
-    "J'ai failli t'envoyer un poème, mais je sais pas écrire de poèmes."
+    "Alerte météo : 100 pour cent de chances que tu lises ce mail avec un sourire.",
+    "J'ai failli t'envoyer un poème, mais je sais pas écrire de poèmes.",
     "Cet animal te dit bonne journée. Moi aussi, mais lui est plus mignon. Un peu.",
     "je crois que l'animal dit que tu dois être heureuse aujourd'hui. je traduis comme je peux :)",
 ]

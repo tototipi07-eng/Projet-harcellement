@@ -228,7 +228,7 @@ def construire_mail(expediteur, destinataire, numero, image):
     html = f"""\
 <html>
   <body style="font-family:Arial,Helvetica,sans-serif;background:{couleur_fond};margin:0;padding:24px;">
-    <div style="max-width:480px;margin:0 auto;text-align:center;color:#1d3557;
+    <div style="max-width:480px;margin:0 auto;text-align:center;color:{couleur_fond};
                 background:#ffffff;border-radius:24px;padding:24px;
                 border:3px dashed #4f8cff;">
       <div style="line-height:1.4;">{confettis()}</div>

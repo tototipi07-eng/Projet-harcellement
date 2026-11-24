@@ -283,6 +283,8 @@ def main():
     msg = construire_mail(utilisateur, destinataire, numero, image)
     envoyer(msg, utilisateur, mot_de_passe)
 
+    ecrire_compteur(numero)
+    
 
 if __name__ == "__main__":
     main()

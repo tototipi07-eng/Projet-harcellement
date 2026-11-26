@@ -1,25 +1,16 @@
 #!/usr/bin/env python3
-"""Envoie un mail d'anniversaire avec une photo de Yahel et une phrase,
-puis incrémente counter.json.
-
-Chaque exécution envoie le mail suivant : la phrase n°N et la photo n°N
-(dans l'ordre), N étant le compteur. Quand on arrive au bout de la liste,
-on repart au début.
+"""Envoie un mail quotidien avec une photo d'animal, puis incrémente counter.json.
 
 Variables d'environnement requises (secrets GitHub) :
     SMTP_USER      adresse Gmail d'envoi
     SMTP_PASSWORD  mot de passe d'application Gmail
     DEST_EMAIL     adresse de la destinataire
 
-Photos : à mettre dans le dossier photos/ à côté de ce script, nommées dans
-l'ordre voulu (001.jpg, 002.jpg, ...). Formats : jpg, jpeg, png, webp, gif.
-
 Le compteur n'est modifié qu'après un envoi réussi : si une erreur survient,
 le script s'arrête avec un code d'erreur et le workflow ne commit rien.
 """
 
 import json
-import mimetypes
 import os
 import random
 import smtplib
@@ -28,162 +19,104 @@ from email.message import EmailMessage
 from email.utils import formataddr, formatdate, make_msgid
 from html import escape
 from pathlib import Path
+import requests
 
 
 COUNTER_FILE = Path(__file__).parent / "counter.json"
-PHOTOS_DIR = Path(__file__).parent / "photos"
-EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
+
 
 SITE_URL = "https://tototipi07-eng.github.io/Projet-harcellement/"
 
-SENDER_NAME = "Surprise anniversaire 🎈"
-PRENOM = "Yahel"
+
+FALLBACK_URL = "https://raw.githubusercontent.com/tototipi07-eng/Projet-harcellement/main/secours.jpg"
+
+SENDER_NAME = "Projet Harcèlement"
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
+TIMEOUT = 15  
 MAX_IMAGE_BYTES = 8 * 1024 * 1024
 
-# Une phrase par mail, dans l'ordre. 84 phrases = 14 h à raison d'un mail / 10 min.
-PHRASES = [
-    # Matin
-    "Bonjour Joyeux anniversaire Yahel ! 🎂",
-    "Ceci est le premier mail d'une longue série. Tu n'es pas prête.",
+CAPTIONS = [
+    "Cet animal te regarde avec de grandes attentes.",
+    "Ce mail s'autodétruira dans... non, finalement il reste là.",
+    "Je ne dis pas que cet animal te ressemble. Je le pense très fort.",
+    "Mise à jour du dossier : Mmmmm non je continue.",
+    "comment ça va ?",
+    "j'aurais kiffer qu'on aille au zoo, le problème c'est que j'ai peur qu'ils te gardent",
+    "J'ai failli t'envoyer un poème, mais je sais pas écrire de poèmes.",
+    "Cet animal te dit bonne journée. Moi aussi, mais lui est plus mignon.",
+    "je crois que l'animal dit que tu dois être heureuse aujourd'hui. je traduis comme je peux :)",
+    "J'espère que ta journée se passe aussi bien que tu le mérites.",
+    "Il y a des personnes qu'on croise, et puis il y a celles qu'on est content d'avoir rencontrées.",
+    "Je crois que tu oublies parfois à quel point tu peux être géniale.",
+    "Message rapide pour te souhaiter une bonne journée.",
+    "Il fallait bien que quelqu'un te rappelle que tu es incroyable.",
+    "J'espère que quelque chose de bien t'arrivera aujourd'hui.",
+    "J'aime beaucoup la personne que tu es.",
+    "Il y a des gens qu'on apprécie. Et puis il y a toi.",
+    "Je pense que les couchers de soleil sont un peu jaloux de toi.",
+    "J'aimerais bien être aussi pendant mes examens que je le suis du fait que tu es jolie.",
+    "Le monde est plus sympa avec des personnes comme toi dedans.",
 
-    "tu as 19 ans t'es vielle de fou bahahhhahahaha",
-    "j'aime bien cette photo t'es jolie je commence doucement.",
-    "Aujourd'hui, tu as officiellement le droit de ne pas être gentille. ",
-    "Message d'utilité publique : BONNE ANNNNIIIIVERRRSAIRREEE YAHELLLL.",
-    "Si tu lis ça avec le sourire, ma mission est déjà réussi.",
-    "Info du jour : le monde est un peu mieux depuis que tu es dedans. ps:c'est pas de moi celle là mais je la trouve vraie.",
-    "Que cette journée soit remplie de bonnes surprises.",
-    "tu as le droit de te faire plaisir aujourd'hui. Interdiction de t'en priver.",
-    "Déjà 11 mails reçus, et on n'est qu'au début. Courage...",
-    "Question ? as-tu déjà fait un vœu aujourd'hui ? Fais-en un gros.",
-    "Je suis très content de t'avoir dans ma vie. Voilà, c'est dit.",
-    "att je vais chercher des phrases d'accroche pout toi",
-    "Je viens vérifier si tu es toujours aussi incroyable qu'hier. C'est pour mes statistiques.",
-    "Je voulais écrire quelque chose d'intelligent, mais tu me fais perdre mes moyens. pas mal celle là non ?",
-    "J'espère que ta journée est aussi belle que toi. ouffff elle est trop bien",
-    "Certaines personnes prennent de belles photos. Toi, tu rends les photos belles.",
-    "Statistique du jour : 100 % des mails d'aujourd'hui contiennent une belle personne.",
-    "Il existe plus de flamants roses en plastique dans le monde que de vrais flamants roses",
-    "Tu mérites une journée où tout se passe bien. Je croise les doigts.",
-
-
-    "Cette phrase n'a aucun intérêt, j'espère que tu la lira pas ",
-    "Il paraît qu'on grandit à chaque anniversaire. Toi, tu rayonnes surtout. j'ai plus trop d'inspi là dsl",
-    "Si tu as faim tu peux aller manger, c'est logique ",
-    "Si tu as soif tu peux aller boire, c'est logique aussi",
-    "Une porte ouverte est généralement plus ouverte qu'une porte fermée.",
-    "si tu as chaud tu peux enlever ton écharpe, c'est logique aussi",
-    "Si tu as froid je peux te réchauffer si tu veux",
-    "J'espère que ça va marcher et que ça ne servent à rien :(.",
-    "Ce que j'aime chez toi ? Plein de choses. La liste est longue.",
-    "Les vaches ont des meilleures amies et stressent quand elles sont séparées.",
-    "ehh yaaaa moyennn ouuuuu ??? ",
-    "Une girafe se nettoie les oreilles avec sa langue.",
-
-    # Midi
-    "Tu fais partie des gens qui rendent les journées plus légères. Merci pour ça.",
-    "Je pense que tu sous-estimes ton niveau de photogénie. je sais pas si ça s'écrit comme ça mdr ",
-    "Le jour de son anniversaire, on a le droit de dire et faire ce qu'on veut. je pose ça la",
-    "Attention, être aussi jolie est normalement soumis à une réglementation strict.",
-    "Bonjour mademoiselle, je vous arrête pour excès de beauté.",
-    "dsl pour les fautes d'orthographe jsuis trop nul pour ça",
-    "Ce qu'il y a devant l'objectif est beau, mais ce qu'il y a derrière palalalalaa. dsl il est tard pour moi",
-    "Je reviens dans dix minutes att",
-    "Je reviens dans dix minutes encore je dois regarder the pianist sans toi",
-    "je t'ai manqué ???????",
-    "Tu es probablement en train de sourire. Je le sens d'ici.",
-
-    # Après-midi
-
-    "prends le temps de profiter. Aujourd'hui, c'est ton jour, par contre demain tu vas voir....",
-    "Si on faisait un classement des plus belle personnes, tu serais comme dans la musique de squeezie",
-
-    "Une journée sur Vénus est plus longue qu'une année sur Vénus.c'est fou en vrai",
-    "Je suis content d'avoir pu partager cette journée avec toi même par mail mdrr ",
-    "Tu as vu comme tu es photogénique ? ",
-    "Je viens de vérifier. Oui, c'est toujours ton anniversaire.",
-    "Si tu es fatiguée de tous ces mails, tu peux répondre « stop ». Je ne m'arrêterai pas, mais c'est gentil de demander.",
-
-   
-    "Allez, courage, il reste encore plein de mails à lire. Tu vas y arriver.",
-    "Quel est le plus beau cadeau d'aujourd'hui ? Ces mails, évidemment.",
-   
-    "yahel ... ... NON RIEN ahaahahahahahaahah",
-    "Merci d'exister, sincèrement.",
-    "Je suis à court d'idées de blagues, donc je mise tout sur la gentillesse.",
-
-    "Il paraît que les anniversaires rendent plus vieux c'est vrai ? ",
-    "Les gens qui ont 19 ans ont généralement 1 an de plus que les gens qui ont 18 ans.",
-    # Soirée
-    "Les personnes vivantes ont tendance à ne pas être mortes.", 
-    "J'ai remarqué que les anniversaires tombent toujours le même jour de l'année.",
-
-    "Si quelqu'un te propose de cuisiner ce soir, accepte. C'est un cadeau.",
-    "Plus une pizza est grande, plus il y a de pizza dedans.",
-    "Plus il y a de gens dans une file d'attente, plus la file d'attente est longue",
-    "si tu mets un pizza sur une autre pizza ça fait 2 pizzas mais si tu mets une lazzagne sur une autre lazzagne ça fait une lazzagne. à mériter",
-    "c'est fou toute les photos sont belle de ouf bizzare",
-    
-    "fais un vœu , Je suis sûr qu'il se réalisera à part si je trouve qu'il est nul donc il se réalisera pas",
-    "Je t'écris depuis le futur : tu vas passer une très belle année de 19 ans.",
-    "Contrôle qualité terminé : résultat, toujours parfaite. je deviens fou ",
-    "La soirée approche, et avec elle la fin des mails. c'est triste",
-    "Quoi qu'il arrive cette année, sache que je suis dans ton camp. Toujours.",
-    "Pour finir : que cette nouvelle année soit remplie de joie, de rires et de belles surprises.",
-    "Voilà, c'est fini ! Joyeux anniversaire Yahel, et bonne soiré. 🌙",
-    "allez une petit dernière pour la route",
 ]
 
-CONFETTI_COULEURS = ["#2f6fed", "#ffb703", "#2a9d8f", "#e63946", "#8ecae6", "#fb8500", "#90be6d"]
-CONFETTI_FORMES = ["●", "◆", "■", "▲", "★", "♥", "✦"]
-COULEURS_FOND = ["#eaf2ff", "#fff0f3", "#f0f7e9", "#fff6e5", "#f3edff", "#e8f7f5"]
+def photo_chat():
+    r = requests.get("https://api.thecatapi.com/v1/images/search", timeout=TIMEOUT)
+    r.raise_for_status()
+    return r.json()[0]["url"]
 
 
-def confettis(n=22):
-    """Ligne de confettis colorés aléatoires (compatible clients mail)."""
-    morceaux = []
-    for _ in range(n):
-        forme = random.choice(CONFETTI_FORMES)
-        couleur = random.choice(CONFETTI_COULEURS)
-        taille = random.choice([12, 16, 20, 24])
-        morceaux.append(
-            f'<span style="color:{couleur};font-size:{taille}px;margin:0 3px;">{forme}</span>'
-        )
-    return "".join(morceaux)
+def photo_chien():
+    r = requests.get("https://dog.ceo/api/breeds/image/random", timeout=TIMEOUT)
+    r.raise_for_status()
+    return r.json()["message"]
+
+def photo_renard():
+    r = requests.get("https://randomfox.ca/floof/", timeout=TIMEOUT)
+    r.raise_for_status()
+    return r.json()["image"]
+
+def photo_capybara():
+    r = requests.get("https://api.capy.lol/v1/capybara?json=true", timeout=TIMEOUT)
+    r.raise_for_status()
+    return r.json()["data"]["url"]
 
 
-def lister_photos():
-    if not PHOTOS_DIR.is_dir():
-        return []
-    return sorted(
-        p for p in PHOTOS_DIR.iterdir() if p.suffix.lower() in EXTENSIONS
-    )
+SOURCES = [
+    ("chat", photo_chat),
+    ("chien", photo_chien),
+    ("renard", photo_renard),
+    ("capybara", photo_capybara),
+]
 
 
-def charger_photo(chemin):
-    octets = chemin.read_bytes()
-    if len(octets) > MAX_IMAGE_BYTES:
+def telecharger(url):
+    r = requests.get(url, timeout=TIMEOUT)
+    r.raise_for_status()
+    content_type = r.headers.get("Content-Type", "").split(";")[0].strip().lower()
+    if not content_type.startswith("image/"):
+        raise ValueError(f"Contenu inattendu : {content_type or 'inconnu'}")
+    if len(r.content) > MAX_IMAGE_BYTES:
         raise ValueError("Image trop lourde")
-    type_mime, _ = mimetypes.guess_type(chemin.name)
-    if not type_mime or not type_mime.startswith("image/"):
-        raise ValueError(f"Type inattendu : {type_mime or 'inconnu'}")
-    maintype, subtype = type_mime.split("/", 1)
-    return octets, maintype, subtype
+    maintype, subtype = content_type.split("/", 1)
+    return r.content, maintype, subtype
 
 
-def choisir_photo():
-    """Choisit une photo au hasard, en essayant les autres si elle est invalide."""
-    photos = lister_photos()
-    random.shuffle(photos)
-    for chemin in photos:
+def recuperer_photo():
+    sources = SOURCES[:]
+    random.shuffle(sources)
+    for animal, fetch in sources:
         try:
-            return charger_photo(chemin)
-        except Exception as err:  # noqa: BLE001 - on passe à la photo suivante
-            print(f"[photo] {chemin.name} inutilisable : {err}")
-    print("[photo] aucune photo disponible dans photos/")
-    return None
+            return animal, telecharger(fetch())
+        except Exception as err:  # noqa: BLE001 - on veut tout rattraper ici
+            print(f"[photo] {animal} indisponible : {err}")
+
+    try:
+        print("[photo] utilisation de la photo de secours")
+        return "animal mystère", telecharger(FALLBACK_URL)
+    except Exception as err:  # noqa: BLE001
+        print(f"[photo] photo de secours indisponible : {err}")
+        return None, None
 
 
 def lire_compteur():
@@ -196,13 +129,12 @@ def ecrire_compteur(valeur):
         json.dump({"count": valeur}, f)
         f.write("\n")
 
-
-def construire_mail(expediteur, destinataire, numero, image):
-    total = len(PHRASES)
-    position = (numero) % total
-    phrase = PHRASES[position]
-    couleur_fond = random.choice(COULEURS_FOND)
-    sujet = f"Joyeux anniversaire Yahel!"
+def construire_mail(expediteur, destinataire, numero, animal, image):
+    legende = random.choice(CAPTIONS)
+    sujet = f"Harcèlement : ton {animal} du jour"
+    if image is None:
+        sujet = f"Harcèlement: les animaux sont en grève"
+        legende = "Les animaux sont en grève aujourd'hui, mais le harcèlement continue."
 
     msg = EmailMessage()
     msg["Subject"] = sujet
@@ -211,37 +143,30 @@ def construire_mail(expediteur, destinataire, numero, image):
     msg["Date"] = formatdate(localtime=True)
 
     texte = (
-        f"🎉 Joyeux anniversaire Yahel! 🎉\n\n"
-        f"{phrase}\n\n"
+        f"{legende}\n\n"
+        f"Harcèlement \n"
+        f"clique ici pour le site officiel : {SITE_URL}\n"
     )
     msg.set_content(texte)
 
-    cid = make_msgid(domain="anniversaire.local")
+    cid = make_msgid(domain="harcelement.local")
     bloc_photo = ""
     if image is not None:
         bloc_photo = (
-            f'<img src="cid:{cid[1:-1]}" alt="Photo de {escape(PRENOM)}" '
-            'style="max-width:100%;border-radius:18px;margin:16px 0;'
-            'border:5px solid #4f8cff;box-shadow:0 6px 18px rgba(47,111,237,0.3);">'
+            f'<img src="cid:{cid[1:-1]}" alt="Photo du jour" '
+            'style="max-width:100%;border-radius:12px;margin:16px 0;">'
         )
 
     html = f"""\
 <html>
-  <body style="font-family:Arial,Helvetica,sans-serif;background:{couleur_fond};margin:0;padding:24px;">
-    <div style="max-width:480px;margin:0 auto;text-align:center;color:{couleur_fond};
-                background:#ffffff;border-radius:24px;padding:24px;
-                border:3px dashed #4f8cff;">
-      <div style="line-height:1.4;">{confettis()}</div>
-      <div style="font-size:42px;margin:6px 0;"> 🎉 🎉 🎉 🎂  🎉 🎉 🎉</div>
-      <h1 style="margin:4px 0;color:#1d3557;font-size:28px;">Joyeux anniversaire Yahel! </h1>
-     
+  <body style="font-family:Arial,Helvetica,sans-serif;background:#faf7f2;margin:0;padding:24px;">
+    <div style="max-width:480px;margin:0 auto;text-align:center;color:#333;">
+      <h2 style="margin-bottom:4px;">Harcèlement du jour</h2>
       {bloc_photo}
-      <p style="font-size:17px;line-height:1.5;background:{couleur_fond};border-radius:14px;padding:14px;color:#1d3557;">
-        {escape(phrase)}
+      <p style="font-size:16px;line-height:1.5;">{escape(legende)}</p>
+      <p style="font-size:13px;color:#888;">
+        <a href="{escape(SITE_URL)}" style="color:#888;">Consulter le compteur officiel</a>
       </p>
-      <div style="font-size:26px;margin:10px 0;">❤️ ✨ ❤️ 🥳 ❤️ ✨ ❤️</div>
-      
-      <div style="line-height:1.4;margin-top:18px;">{confettis()}</div>
     </div>
   </body>
 </html>
@@ -279,12 +204,13 @@ def main():
         sys.exit(f"Variables d'environnement manquantes : {', '.join(manquantes)}")
 
     numero = lire_compteur() + 1
-    image = choisir_photo()
+    animal, image = recuperer_photo()
 
-    msg = construire_mail(utilisateur, destinataire, numero, image)
+    msg = construire_mail(utilisateur, destinataire, numero, animal, image)
     envoyer(msg, utilisateur, mot_de_passe)
-
+    
     ecrire_compteur(numero)
+    print(f"[ok] mail n°{numero} envoyé ({'avec' if image else 'sans'} photo)")
 
 
 if __name__ == "__main__":

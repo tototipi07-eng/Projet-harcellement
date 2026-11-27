@@ -1,14 +1,4 @@
-#!/usr/bin/env python3
-"""Envoie un mail quotidien avec une photo d'animal, puis incrémente counter.json.
 
-Variables d'environnement requises (secrets GitHub) :
-    SMTP_USER      adresse Gmail d'envoi
-    SMTP_PASSWORD  mot de passe d'application Gmail
-    DEST_EMAIL     adresse de la destinataire
-
-Le compteur n'est modifié qu'après un envoi réussi : si une erreur survient,
-le script s'arrête avec un code d'erreur et le workflow ne commit rien.
-"""
 
 import json
 import os
@@ -57,7 +47,7 @@ CAPTIONS = [
     "Je pense que les couchers de soleil sont un peu jaloux de toi.",
     "J'aimerais bien être aussi pendant mes examens que je le suis du fait que tu es jolie.",
     "Le monde est plus sympa avec des personnes comme toi dedans.",
-
+    
 ]
 
 def photo_chat():
@@ -85,7 +75,6 @@ def photo_capybara():
 SOURCES = [
     ("chat", photo_chat),
     ("chien", photo_chien),
-    ("renard", photo_renard),
     ("capybara", photo_capybara),
 ]
 
